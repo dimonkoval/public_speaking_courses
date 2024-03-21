@@ -2,9 +2,9 @@ package speakingclub.app.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 import java.lang.reflect.Field;
 import java.util.Objects;
+import speakingclub.app.exception.FieldsMatchException;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
     private String password;
@@ -27,7 +27,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
             Object repeatPasswordValue = repeatPasswordField.get(value);
             return Objects.equals(passwordValue, repeatPasswordValue);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Error accessing fields", e);
+            throw new FieldsMatchException("Password and Repeat password fields do not match");
         }
     }
 }

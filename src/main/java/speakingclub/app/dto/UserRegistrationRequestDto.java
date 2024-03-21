@@ -1,10 +1,11 @@
 package speakingclub.app.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import speakingclub.app.validation.Email;
 import speakingclub.app.validation.FieldMatch;
+import speakingclub.app.validation.Password;
 
 @Data
 @FieldMatch(password = "password", repeatPassword = "repeatPassword")
@@ -14,6 +15,7 @@ public class UserRegistrationRequestDto {
     private String email;
     @Size(min = 6, max = 255)
     private String password;
+    @Password
     @Size(min = 6, max = 255)
     private String repeatPassword;
     @NotBlank(message = "First name can't be empty.")
