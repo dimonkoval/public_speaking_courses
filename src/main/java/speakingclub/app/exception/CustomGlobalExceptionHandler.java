@@ -33,6 +33,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         body.put("status", HttpStatus.BAD_REQUEST);
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessageForArgumentNotValid)
+                .map(errorMessage -> Character.toUpperCase(errorMessage.charAt(0))
+                        + errorMessage.substring(1))
                 .toList();
         body.put("errors", errors);
         return new ResponseEntity<>(body, headers, status);

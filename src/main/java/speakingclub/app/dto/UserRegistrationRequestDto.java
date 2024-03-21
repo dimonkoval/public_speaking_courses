@@ -1,9 +1,9 @@
 package speakingclub.app.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import speakingclub.app.validation.Email;
 import speakingclub.app.validation.FieldMatch;
 import speakingclub.app.validation.Password;
 
