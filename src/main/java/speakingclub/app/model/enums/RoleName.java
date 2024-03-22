@@ -1,4 +1,4 @@
-package speakingclub.app.model;
+package speakingclub.app.model.enums;
 
 public enum RoleName {
     ADMIN,

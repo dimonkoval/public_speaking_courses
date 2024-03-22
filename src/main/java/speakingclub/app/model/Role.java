@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import java.util.Set;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import speakingclub.app.model.enums.RoleName;
 
 @Entity
 @Table(name = "roles")

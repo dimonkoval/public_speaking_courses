@@ -18,6 +18,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import speakingclub.app.model.enums.RoleName;
 
 @Entity
 @Data
