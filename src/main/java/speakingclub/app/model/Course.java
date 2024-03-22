@@ -23,7 +23,6 @@ import speakingclub.app.model.enums.CourseType;
 @Table(name = "courses")
 @SQLDelete(sql = "UPDATE courses SET is_deleted = TRUE WHERE id = ?")
 @Where(clause = "is_deleted = FALSE")
-
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
