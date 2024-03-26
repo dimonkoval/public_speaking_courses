@@ -11,7 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -36,6 +37,8 @@ public class Course {
     private CourseType courseType;
     @Enumerated(EnumType.STRING)
     private CourseDirection courseDirection;
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
-    private List<Module> modules;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Module> modules = new HashSet<>();
+    @Column(nullable = false)
+    private boolean isDeleted = false;
 }

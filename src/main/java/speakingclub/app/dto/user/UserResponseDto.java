@@ -1,4 +1,4 @@
-package speakingclub.app.dto;
+package speakingclub.app.dto.user;
 
 import lombok.Data;
 
