@@ -17,7 +17,7 @@ import speakingclub.app.repository.user.UserRepository;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
     private static final String ADMIN_EMAIL = "admin@gmail.com";
-    private static final String ADMIN_PASSWORD = "qwerty_12345";
+    private static final String ADMIN_PASSWORD = "Qwerty_12345";
     private static final String ADMIN_FIRSTNAME = "Anastasia";
     private static final String ADMIN_LASTNAME = "Shkiria";
     private static final RoleName USER_ROLE = RoleName.USER;
@@ -62,5 +62,6 @@ public class DataInitializer implements CommandLineRunner {
         user.setFirstName(ADMIN_FIRSTNAME);
         user.setLastName(ADMIN_LASTNAME);
         user.setRoles(adminRoles);
+        userRepository.save(user);
     }
 }

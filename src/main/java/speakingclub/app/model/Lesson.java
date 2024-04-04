@@ -12,11 +12,14 @@ import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "lessons")
 @SQLDelete(sql = "UPDATE lessons SET is_deleted = TRUE WHERE id = ?")
 @Where(clause = "is_deleted = FALSE")

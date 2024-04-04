@@ -12,12 +12,15 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import speakingclub.app.model.enums.RoleName;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Role {
     @Id
@@ -26,8 +29,6 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name", unique = true, nullable = false)
     private RoleName roleName;
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private Set<User> users;
 
     public Role(RoleName roleName) {
         this.roleName = roleName;

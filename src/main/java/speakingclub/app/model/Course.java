@@ -14,13 +14,16 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import speakingclub.app.model.enums.CourseDirection;
 import speakingclub.app.model.enums.CourseType;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "courses")
 @SQLDelete(sql = "UPDATE courses SET is_deleted = TRUE WHERE id = ?")
 @Where(clause = "is_deleted = FALSE")
