@@ -13,4 +13,5 @@ public class ModuleDto {
     @NotBlank
     private String linkToMeditation;
     private Set<ThemaDto> themas;
+    private WebinarDto webinar;
 }

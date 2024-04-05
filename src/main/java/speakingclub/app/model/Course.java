@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
@@ -41,6 +42,8 @@ public class Course {
     private CourseDirection courseDirection;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Module> modules = new HashSet<>();
+    private LocalDate startDate;
+    private LocalDate endDate;
     @Column(nullable = false)
     private boolean isDeleted = false;
 }

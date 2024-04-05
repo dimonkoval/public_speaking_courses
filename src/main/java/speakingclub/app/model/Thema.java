@@ -1,5 +1,6 @@
 package speakingclub.app.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,7 +33,7 @@ public class Thema {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "module_id", nullable = false)
     private Module module;
-    @OneToMany(mappedBy = "thema")
+    @OneToMany(mappedBy = "thema", cascade = CascadeType.ALL)
     private Set<Lesson> lessons = new HashSet<>();
     private boolean isDeleted = false;
 }

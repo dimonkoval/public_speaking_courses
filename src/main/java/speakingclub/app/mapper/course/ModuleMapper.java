@@ -12,9 +12,11 @@ import speakingclub.app.model.Module;
 @Mapper(config = MapperConfig.class, uses = ThemaMapper.class)
 public interface ModuleMapper {
     @Mapping(target = "themas", ignore = true)
+    @Mapping(target = "webinar", ignore = true)
     Module toModel(ModuleDto dto);
 
     @Mapping(target = "themas", source = "themas", qualifiedByName = "themaDtoByModel")
+    @Mapping(target = "webinar", source = "webinar")
     ModuleDto toDto(Module module);
 
     @Named("moduleDtoByModel")

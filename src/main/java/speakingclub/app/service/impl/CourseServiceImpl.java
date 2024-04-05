@@ -14,16 +14,20 @@ import speakingclub.app.mapper.course.HomeworkMapper;
 import speakingclub.app.mapper.course.LessonMapper;
 import speakingclub.app.mapper.course.ModuleMapper;
 import speakingclub.app.mapper.course.ThemaMapper;
+import speakingclub.app.mapper.course.WebinarMapper;
 import speakingclub.app.model.Course;
 import speakingclub.app.model.Homework;
 import speakingclub.app.model.Lesson;
 import speakingclub.app.model.Module;
 import speakingclub.app.model.Thema;
+import speakingclub.app.model.Webinar;
+import speakingclub.app.model.enums.CourseType;
 import speakingclub.app.repository.course.CourseRepository;
 import speakingclub.app.repository.course.HomeworkRepository;
 import speakingclub.app.repository.course.LessonRepository;
 import speakingclub.app.repository.course.ModuleRepository;
 import speakingclub.app.repository.course.ThemaRepository;
+import speakingclub.app.repository.course.WebinarRepository;
 import speakingclub.app.service.CourseService;
 
 @Service
@@ -39,11 +43,19 @@ public class CourseServiceImpl implements CourseService {
     private final LessonRepository lessonRepository;
     private final HomeworkMapper homeworkMapper;
     private final HomeworkRepository homeworkRepository;
+    private final WebinarMapper webinarMapper;
+    private final WebinarRepository webinarRepository;
 
     @Override
     public CourseDto saveCourse(CourseDto courseDto) {
         Course course = courseMapper.toModel(courseDto);
         Course savedCourse = courseRepository.save(course);
+
+        if (savedCourse.getCourseType() == CourseType.FLEXIBLE_WITH_WEBINARS) {
+            savedCourse.setStartDate(courseDto.getStartDate());
+            savedCourse.setEndDate(courseDto.getEndDate());
+            courseRepository.save(savedCourse);
+        }
 
         Set<ModuleDto> modules = courseDto.getModules();
         Set<ModuleDto> savedModules = saveModules(modules, savedCourse);
@@ -59,6 +71,13 @@ public class CourseServiceImpl implements CourseService {
             Module module = moduleMapper.toModel(moduleDto);
             module.setCourse(savedCourse);
             Module savedModule = moduleRepository.save(module);
+
+            if (moduleDto.getWebinar() != null) {
+                Webinar webinar = webinarMapper.toModel(moduleDto.getWebinar());
+                webinar.setModule(savedModule);
+                webinarRepository.save(webinar);
+                savedModule.setWebinar(webinar);
+            }
 
             Set<ThemaDto> themas = moduleDto.getThemas();
             Set<ThemaDto> savedThemas = saveThemas(themas, savedModule);

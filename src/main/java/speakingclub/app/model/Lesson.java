@@ -1,5 +1,6 @@
 package speakingclub.app.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class Lesson {
     @ManyToOne
     @JoinColumn(name = "thema_id", nullable = false)
     private Thema thema;
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private Set<Homework> homeworks = new HashSet<>();
     private boolean isDeleted = false;
 }

@@ -1,5 +1,6 @@
 package speakingclub.app.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,7 +37,9 @@ public class Module {
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
-    @OneToMany(mappedBy = "module")
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
     private Set<Thema> themas = new HashSet<>();
+    @OneToOne(mappedBy = "module", cascade = CascadeType.ALL)
+    private Webinar webinar;
     private boolean isDeleted = false;
 }

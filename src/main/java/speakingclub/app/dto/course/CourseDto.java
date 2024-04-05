@@ -3,6 +3,7 @@ package speakingclub.app.dto.course;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
 import lombok.Data;
 
@@ -18,5 +19,7 @@ public class CourseDto {
     private String courseType;
     @NotBlank
     private String courseDirection;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Set<ModuleDto> modules;
 }
