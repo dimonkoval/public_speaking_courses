@@ -1,12 +1,11 @@
 package speakingclub.app.dto.course;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
 public class HomeworkDto {
-    @NotBlank
+    @NotEmpty
     private String name;
-    @NotBlank
     private String description;
 }

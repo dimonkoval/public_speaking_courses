@@ -10,7 +10,6 @@ public class ModuleDto {
     private String name;
     @NotBlank
     private String meditationName;
-    @NotBlank
     private String linkToMeditation;
     private Set<ThemaDto> themas;
 }

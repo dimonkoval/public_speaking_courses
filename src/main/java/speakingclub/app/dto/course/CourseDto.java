@@ -1,22 +1,23 @@
 package speakingclub.app.dto.course;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.util.Set;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class CourseDto {
-    @NotBlank
+    @NotEmpty
     private String name;
     @PositiveOrZero
     private BigDecimal price;
-    @NotBlank
     private String imageUrl;
-    @NotBlank
+    @NotEmpty
     private String courseType;
-    @NotBlank
+    @NotEmpty
     private String courseDirection;
     private Set<SkillDto> skills;
     private Set<ModuleDto> modules;

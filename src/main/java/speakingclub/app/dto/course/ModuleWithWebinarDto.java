@@ -10,7 +10,6 @@ public class ModuleWithWebinarDto {
     private String name;
     @NotBlank
     private String meditationName;
-    @NotBlank
     private String linkToMeditation;
     private Set<ThemaDto> themas;
     private WebinarDto webinar;
