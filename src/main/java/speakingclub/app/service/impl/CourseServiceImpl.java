@@ -1,33 +1,41 @@
 package speakingclub.app.service.impl;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import speakingclub.app.dto.course.CourseDto;
+import speakingclub.app.dto.course.CourseWithCoachingDto;
+import speakingclub.app.dto.course.CourseWithWebinarDto;
 import speakingclub.app.dto.course.HomeworkDto;
 import speakingclub.app.dto.course.LessonDto;
 import speakingclub.app.dto.course.ModuleDto;
+import speakingclub.app.dto.course.ModuleWithWebinarDto;
+import speakingclub.app.dto.course.SkillDto;
 import speakingclub.app.dto.course.ThemaDto;
 import speakingclub.app.mapper.course.CourseMapper;
+import speakingclub.app.mapper.course.CourseWithCoachingMapper;
+import speakingclub.app.mapper.course.CourseWithWebinarMapper;
 import speakingclub.app.mapper.course.HomeworkMapper;
 import speakingclub.app.mapper.course.LessonMapper;
 import speakingclub.app.mapper.course.ModuleMapper;
+import speakingclub.app.mapper.course.ModuleWithWebinarMapper;
+import speakingclub.app.mapper.course.SkillMapper;
 import speakingclub.app.mapper.course.ThemaMapper;
 import speakingclub.app.mapper.course.WebinarMapper;
 import speakingclub.app.model.Course;
 import speakingclub.app.model.Homework;
 import speakingclub.app.model.Lesson;
 import speakingclub.app.model.Module;
+import speakingclub.app.model.Skill;
 import speakingclub.app.model.Thema;
-import speakingclub.app.model.Webinar;
-import speakingclub.app.model.enums.CourseType;
 import speakingclub.app.repository.course.CourseRepository;
 import speakingclub.app.repository.course.HomeworkRepository;
 import speakingclub.app.repository.course.LessonRepository;
 import speakingclub.app.repository.course.ModuleRepository;
+import speakingclub.app.repository.course.SkillRepository;
 import speakingclub.app.repository.course.ThemaRepository;
-import speakingclub.app.repository.course.WebinarRepository;
 import speakingclub.app.service.CourseService;
 
 @Service
@@ -43,19 +51,19 @@ public class CourseServiceImpl implements CourseService {
     private final LessonRepository lessonRepository;
     private final HomeworkMapper homeworkMapper;
     private final HomeworkRepository homeworkRepository;
+    private final SkillRepository skillRepository;
+    private final SkillMapper skillMapper;
+    private final CourseWithWebinarMapper courseWithWebinarMapper;
+    private final CourseWithCoachingMapper courseWithCoachingMapper;
+    private final ModuleWithWebinarMapper moduleWithWebinarMapper;
     private final WebinarMapper webinarMapper;
-    private final WebinarRepository webinarRepository;
 
     @Override
     public CourseDto saveCourse(CourseDto courseDto) {
         Course course = courseMapper.toModel(courseDto);
         Course savedCourse = courseRepository.save(course);
 
-        if (savedCourse.getCourseType() == CourseType.FLEXIBLE_WITH_WEBINARS) {
-            savedCourse.setStartDate(courseDto.getStartDate());
-            savedCourse.setEndDate(courseDto.getEndDate());
-            courseRepository.save(savedCourse);
-        }
+        saveSkills(courseDto.getSkills(), savedCourse);
 
         Set<ModuleDto> modules = courseDto.getModules();
         Set<ModuleDto> savedModules = saveModules(modules, savedCourse);
@@ -65,6 +73,46 @@ public class CourseServiceImpl implements CourseService {
         return savedCourseDto;
     }
 
+    @Override
+    public CourseWithWebinarDto saveCourseWithWebinar(CourseWithWebinarDto courseWithWebinarDto) {
+        Course courseWithWebinar = courseWithWebinarMapper.toModel(courseWithWebinarDto);
+        Course savedCourse = courseRepository.save(courseWithWebinar);
+
+        saveSkills(courseWithWebinarDto.getSkills(), savedCourse);
+
+        Set<ModuleWithWebinarDto> modules = courseWithWebinarDto.getModules();
+        Set<ModuleWithWebinarDto> savedModules = saveModulesWithWebinar(modules, savedCourse);
+
+        CourseWithWebinarDto savedCourseDto = courseWithWebinarMapper.toDto(savedCourse);
+        savedCourseDto.setModules(savedModules);
+        return savedCourseDto;
+    }
+
+    @Override
+    public CourseWithCoachingDto saveCourseWithCoaching(
+            CourseWithCoachingDto courseWithCoachingDto) {
+        Course course = courseWithCoachingMapper.toModel(courseWithCoachingDto);
+        Course savedCourse = courseRepository.save(course);
+        saveSkills(courseWithCoachingDto.getSkills(), savedCourse);
+        return courseWithCoachingMapper.toDto(savedCourse);
+    }
+
+    private void saveSkills(Set<SkillDto> skillDtos, Course savedCourse) {
+        Set<Skill> savedSkills = new HashSet<>();
+
+        for (SkillDto skillDto : skillDtos) {
+            Optional<Skill> existingSkill = skillRepository.findByName(skillDto.getName());
+            if (existingSkill.isPresent()) {
+                savedSkills.add(existingSkill.get());
+            } else {
+                Skill newSkill = skillMapper.toModel(skillDto);
+                savedSkills.add(newSkill);
+            }
+        }
+        savedCourse.setSkills(savedSkills);
+        courseRepository.save(savedCourse);
+    }
+
     private Set<ModuleDto> saveModules(Set<ModuleDto> moduleDtos, Course savedCourse) {
         Set<ModuleDto> savedModules = new HashSet<>();
         for (ModuleDto moduleDto : moduleDtos) {
@@ -72,17 +120,31 @@ public class CourseServiceImpl implements CourseService {
             module.setCourse(savedCourse);
             Module savedModule = moduleRepository.save(module);
 
-            if (moduleDto.getWebinar() != null) {
-                Webinar webinar = webinarMapper.toModel(moduleDto.getWebinar());
-                webinar.setModule(savedModule);
-                webinarRepository.save(webinar);
-                savedModule.setWebinar(webinar);
-            }
-
             Set<ThemaDto> themas = moduleDto.getThemas();
             Set<ThemaDto> savedThemas = saveThemas(themas, savedModule);
 
             ModuleDto savedModuleDto = moduleMapper.toDto(savedModule);
+            savedModuleDto.setThemas(savedThemas);
+            savedModules.add(savedModuleDto);
+        }
+        return savedModules;
+    }
+
+    private Set<ModuleWithWebinarDto> saveModulesWithWebinar(Set<ModuleWithWebinarDto> moduleDtos,
+                                                  Course savedCourse) {
+        Set<ModuleWithWebinarDto> savedModules = new HashSet<>();
+        for (ModuleWithWebinarDto moduleDto : moduleDtos) {
+            Module module = moduleWithWebinarMapper.toModel(moduleDto);
+            module.setCourse(savedCourse);
+            Module savedModule = moduleRepository.save(module);
+
+            savedModule.setWebinar(webinarMapper.toModel(moduleDto.getWebinar()));
+
+            Set<ThemaDto> themas = moduleDto.getThemas();
+            Set<ThemaDto> savedThemas = saveThemas(themas, savedModule);
+
+            ModuleWithWebinarDto savedModuleDto
+                    = moduleWithWebinarMapper.toDto(savedModule);
             savedModuleDto.setThemas(savedThemas);
             savedModules.add(savedModuleDto);
         }

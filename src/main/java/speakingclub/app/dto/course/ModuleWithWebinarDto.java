@@ -5,7 +5,7 @@ import java.util.Set;
 import lombok.Data;
 
 @Data
-public class ModuleDto {
+public class ModuleWithWebinarDto {
     @NotBlank
     private String name;
     @NotBlank
@@ -13,4 +13,5 @@ public class ModuleDto {
     @NotBlank
     private String linkToMeditation;
     private Set<ThemaDto> themas;
+    private WebinarDto webinar;
 }

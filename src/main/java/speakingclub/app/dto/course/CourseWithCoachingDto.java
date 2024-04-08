@@ -7,7 +7,7 @@ import java.util.Set;
 import lombok.Data;
 
 @Data
-public class CourseDto {
+public class CourseWithCoachingDto {
     @NotBlank
     private String name;
     @PositiveOrZero
@@ -19,5 +19,4 @@ public class CourseDto {
     @NotBlank
     private String courseDirection;
     private Set<SkillDto> skills;
-    private Set<ModuleDto> modules;
 }

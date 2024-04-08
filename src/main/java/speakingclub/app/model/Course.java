@@ -8,6 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -40,6 +43,14 @@ public class Course {
     private CourseType courseType;
     @Enumerated(EnumType.STRING)
     private CourseDirection courseDirection;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "courses_skills",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    private Set<Skill> skills = new HashSet<>();
+    private String content;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Module> modules = new HashSet<>();
     private LocalDate startDate;

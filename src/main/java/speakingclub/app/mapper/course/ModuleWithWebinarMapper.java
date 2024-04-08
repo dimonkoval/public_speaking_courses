@@ -6,24 +6,25 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import speakingclub.app.config.MapperConfig;
-import speakingclub.app.dto.course.ModuleDto;
+import speakingclub.app.dto.course.ModuleWithWebinarDto;
 import speakingclub.app.model.Module;
 
 @Mapper(config = MapperConfig.class, uses = ThemaMapper.class)
-public interface ModuleMapper {
+public interface ModuleWithWebinarMapper {
     @Mapping(target = "themas", ignore = true)
-    Module toModel(ModuleDto moduleDto);
+    @Mapping(target = "webinar", ignore = true)
+    Module toModel(ModuleWithWebinarDto moduleWithWebinarDto);
 
     @Mapping(target = "themas", source = "themas", qualifiedByName = "themaDtoByModel")
-    ModuleDto toDto(Module module);
+    @Mapping(target = "webinar", source = "webinar")
+    ModuleWithWebinarDto toDto(Module module);
 
-    @Named("moduleDtoByModel")
-    default Set<ModuleDto> moduleDtoByModel(Set<Module> modules) {
-        Set<ModuleDto> moduleDtos = new HashSet<>();
+    @Named("moduleWithWebinarDtoByModel")
+    default Set<ModuleWithWebinarDto> moduleWithWebinarDtoByModel(Set<Module> modules) {
+        Set<ModuleWithWebinarDto> moduleDtos = new HashSet<>();
         for (Module module : modules) {
             moduleDtos.add(toDto(module));
         }
         return moduleDtos;
     }
-
 }

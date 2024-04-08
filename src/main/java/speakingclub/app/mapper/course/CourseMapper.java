@@ -6,15 +6,13 @@ import speakingclub.app.config.MapperConfig;
 import speakingclub.app.dto.course.CourseDto;
 import speakingclub.app.model.Course;
 
-@Mapper(config = MapperConfig.class, uses = ModuleMapper.class)
+@Mapper(config = MapperConfig.class, uses = {ModuleMapper.class, SkillMapper.class})
 public interface CourseMapper {
+    @Mapping(target = "skills", ignore = true)
     @Mapping(target = "modules", ignore = true)
-    @Mapping(target = "startDate", source = "startDate")
-    @Mapping(target = "endDate", source = "endDate")
     Course toModel(CourseDto dto);
 
+    @Mapping(target = "skills", source = "skills", qualifiedByName = "skillDtoByModel")
     @Mapping(target = "modules", source = "modules", qualifiedByName = "moduleDtoByModel")
-    @Mapping(target = "startDate", source = "startDate")
-    @Mapping(target = "endDate", source = "endDate")
     CourseDto toDto(Course course);
 }
