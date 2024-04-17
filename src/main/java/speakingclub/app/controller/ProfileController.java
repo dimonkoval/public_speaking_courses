@@ -5,9 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import speakingclub.app.dto.course.CourseDto;
 import speakingclub.app.dto.user.ProfileDto;
-import speakingclub.app.dto.user.UserResponseDto;
 import speakingclub.app.service.ProfileService;
 
 @Tag(name = "Profile panel manager", description = "Endpoints for profile panel")

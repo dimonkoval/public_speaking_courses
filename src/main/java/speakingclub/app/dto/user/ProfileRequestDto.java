@@ -1,7 +1,6 @@
 package speakingclub.app.dto.user;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import speakingclub.app.model.Notification;

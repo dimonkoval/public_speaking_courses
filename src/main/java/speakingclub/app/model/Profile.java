@@ -3,10 +3,8 @@ package speakingclub.app.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-//import org.hibernate.annotations.CascadeType;
 
 import java.util.HashSet;
 import java.util.Set;

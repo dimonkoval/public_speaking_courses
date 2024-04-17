@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import speakingclub.app.dto.course.NotificationDto;
 import speakingclub.app.mapper.course.NotificationMapper;
-import speakingclub.app.mapper.user.ProfileMapper;
 import speakingclub.app.model.Notification;
 import speakingclub.app.model.Profile;
 import speakingclub.app.repository.course.NotificationRepository;
 import speakingclub.app.service.NotificationService;
-import speakingclub.app.service.ProfileService;
 
 import java.util.HashSet;
 import java.util.Set;

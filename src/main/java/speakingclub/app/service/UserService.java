@@ -1,14 +1,12 @@
 package speakingclub.app.service;
 
 import speakingclub.app.dto.course.CourseDto;
-import speakingclub.app.dto.course.SkillDto;
 import speakingclub.app.dto.user.UserResponseDto;
 import speakingclub.app.model.Course;
 import speakingclub.app.model.Homework;
 import speakingclub.app.model.Skill;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     String addCourseToStudent(Long userId, Long courseId);

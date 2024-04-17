@@ -11,8 +11,6 @@ import speakingclub.app.dto.user.UserResponseDto;
 import speakingclub.app.mapper.course.CourseMapper;
 import speakingclub.app.mapper.course.HomeworkMapper;
 import speakingclub.app.mapper.course.SkillMapper;
-import speakingclub.app.repository.course.CourseRepository;
-import speakingclub.app.repository.user.UserRepository;
 import speakingclub.app.service.UserService;
 
 import java.util.List;
