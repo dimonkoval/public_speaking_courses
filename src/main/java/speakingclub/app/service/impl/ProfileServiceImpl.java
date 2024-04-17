@@ -12,6 +12,8 @@ import speakingclub.app.repository.user.UserRepository;
 import speakingclub.app.service.NotificationService;
 import speakingclub.app.service.ProfileService;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
@@ -21,23 +23,25 @@ public class ProfileServiceImpl implements ProfileService {
     private final NotificationService notificationService;
     @Override
     public ProfileDto getProfileByUserID(Long userId) {
-        return profileRepository.getProfileByUserID(userId);
+        Profile profile = profileRepository.getProfileByUserID(userId)
+                .orElseThrow(() -> new UserNotFoundException("User by ID " + userId + " not found"));
+        return profileMapper.toDto(profile);
     }
 
     @Override
     public ProfileDto createProfileToUser(ProfileDto profileDto) {
-        User user = userRepository.getUserByIdAllElements(profileDto.getUser().getId())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        if (user == null) {
-            throw new UserNotFoundException("User not found");
+        Optional<Profile> optionalProfile = profileRepository.getProfileByUserID(profileDto.getUser().getId());
+
+        if (optionalProfile.isEmpty()) {
+            Profile profile = profileMapper.toModel(profileDto);
+            profile.setId(profileDto.getUser().getId());
+            Profile savedProfile = profileRepository.save(profile);
+
+            notificationService.saveNotifications(profileDto.getNotifications(), savedProfile);
+            return profileMapper.toDto(savedProfile);
+        } else {
+           throw  new UserNotFoundException("User by ID " + profileDto.getUser().getId() + " already has a profile");
         }
-        Profile profile = profileMapper.toModel(profileDto);
-        profile.setUser(user);
-        Profile savedProfile = profileRepository.save(profile);
-
-        notificationService.saveNotifications(profileDto.getNotifications(), savedProfile);
-
-        return profileMapper.toDto(savedProfile);
     }
 }

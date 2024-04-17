@@ -6,5 +6,5 @@ import speakingclub.app.model.Profile;
 import java.util.Set;
 
 public interface NotificationService {
-    Set<NotificationDto> saveNotifications(Set<NotificationDto> notificationDtos, Profile savedProfile);
+    void saveNotifications(Set<NotificationDto> notificationDtos, Profile savedProfile);
 }
