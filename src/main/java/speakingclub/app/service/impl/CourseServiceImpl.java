@@ -1,5 +1,6 @@
 package speakingclub.app.service.impl;
 
+import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,4 +67,10 @@ public class CourseServiceImpl implements CourseService {
         skillService.saveSkills(courseWithCoachingDto.getSkills(), savedCourse);
         return courseWithCoachingMapper.toDto(savedCourse);
     }
+
+    @Override
+    public List<Course> getAllCourses() {
+        return courseRepository.getAllCourses();
+    }
+
 }

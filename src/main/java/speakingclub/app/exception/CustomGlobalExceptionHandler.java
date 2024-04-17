@@ -80,4 +80,26 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         }
         return e.getDefaultMessage();
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    protected ResponseEntity<Object> handleUserNotFoundException(
+            UserNotFoundException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now().format(FORMATTER));
+        body.put("status", HttpStatus.NOT_FOUND);
+        body.put("error", "Data error");
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    protected ResponseEntity<Object> handleCourseNotFoundException(
+            CourseNotFoundException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now().format(FORMATTER));
+        body.put("status", HttpStatus.NOT_FOUND);
+        body.put("error", "Data error");
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 }
