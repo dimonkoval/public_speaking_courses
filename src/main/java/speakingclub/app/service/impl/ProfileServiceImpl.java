@@ -7,7 +7,6 @@ import speakingclub.app.exception.UserNotFoundException;
 import speakingclub.app.mapper.user.ProfileMapper;
 import speakingclub.app.model.Profile;
 import speakingclub.app.repository.user.ProfileRepository;
-import speakingclub.app.repository.user.UserRepository;
 import speakingclub.app.service.NotificationService;
 import speakingclub.app.service.ProfileService;
 
