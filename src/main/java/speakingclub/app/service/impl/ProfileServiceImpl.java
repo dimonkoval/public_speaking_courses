@@ -6,7 +6,6 @@ import speakingclub.app.dto.user.ProfileDto;
 import speakingclub.app.exception.UserNotFoundException;
 import speakingclub.app.mapper.user.ProfileMapper;
 import speakingclub.app.model.Profile;
-import speakingclub.app.model.User;
 import speakingclub.app.repository.user.ProfileRepository;
 import speakingclub.app.repository.user.UserRepository;
 import speakingclub.app.service.NotificationService;
@@ -18,7 +17,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
-    private final UserRepository userRepository;
     private final ProfileMapper profileMapper;
     private final NotificationService notificationService;
     @Override

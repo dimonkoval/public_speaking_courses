@@ -3,17 +3,13 @@ package speakingclub.app.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import speakingclub.app.dto.course.NotificationDto;
-import speakingclub.app.dto.course.SkillDto;
 import speakingclub.app.mapper.course.NotificationMapper;
 import speakingclub.app.model.Notification;
 import speakingclub.app.model.Profile;
-import speakingclub.app.model.Skill;
-import speakingclub.app.repository.course.NotificationRepository;
 import speakingclub.app.repository.user.ProfileRepository;
 import speakingclub.app.service.NotificationService;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
