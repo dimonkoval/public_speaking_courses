@@ -87,7 +87,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now().format(FORMATTER));
         body.put("status", HttpStatus.NOT_FOUND);
-        body.put("error", "Data error");
+        body.put("error", "Incorrect data");
         body.put("message", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
@@ -98,8 +98,19 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now().format(FORMATTER));
         body.put("status", HttpStatus.NOT_FOUND);
-        body.put("error", "Data error");
+        body.put("error", "Incorrect data");
         body.put("message", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProfileException.class)
+    protected ResponseEntity<Object> handleProfileException(
+            ProfileException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now().format(FORMATTER));
+        body.put("status", HttpStatus.CONFLICT);
+        body.put("error", "Incorrect data");
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 }
