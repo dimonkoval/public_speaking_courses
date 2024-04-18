@@ -6,6 +6,7 @@ import speakingclub.app.dto.course.NotificationDto;
 import speakingclub.app.mapper.course.NotificationMapper;
 import speakingclub.app.model.Notification;
 import speakingclub.app.model.Profile;
+import speakingclub.app.repository.course.NotificationRepository;
 import speakingclub.app.repository.user.ProfileRepository;
 import speakingclub.app.service.NotificationService;
 
@@ -16,15 +17,18 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationMapper notificationMapper;
-    private final ProfileRepository profileRepository;
+    private final NotificationRepository notificationRepository;
+//    private final ProfileRepository profileRepository;
     @Override
-    public void saveNotifications(Set<NotificationDto> notificationDtos, Profile savedProfile) {
-        Set<Notification> savedNotifications = new HashSet<>();
+    public Set<NotificationDto> saveNotifications(Set<NotificationDto> notificationDtos, Profile savedProfile) {
+        Set<NotificationDto> savedNotificationDtos = new HashSet<>();
         for (NotificationDto notificationDto : notificationDtos) {
             Notification notification = notificationMapper.toModel(notificationDto);
-            savedNotifications.add(notification);
+            notification.setProfile(savedProfile);
+            Notification savedNotification = notificationRepository.save(notification);
+            NotificationDto savedNotificationDto = notificationMapper.toDto(savedNotification);
+            savedNotificationDtos.add(savedNotificationDto);
         }
-        savedProfile.setNotifications(savedNotifications);
-        profileRepository.save(savedProfile);
+       return savedNotificationDtos;
     }
 }

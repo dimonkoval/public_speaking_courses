@@ -2,6 +2,7 @@ package speakingclub.app.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import speakingclub.app.dto.course.NotificationDto;
 import speakingclub.app.dto.user.ProfileDto;
 import speakingclub.app.exception.UserNotFoundException;
 import speakingclub.app.mapper.user.ProfileMapper;
@@ -11,6 +12,7 @@ import speakingclub.app.service.NotificationService;
 import speakingclub.app.service.ProfileService;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +34,13 @@ public class ProfileServiceImpl implements ProfileService {
 
         if (optionalProfile.isEmpty()) {
             Profile profile = profileMapper.toModel(profileDto);
-            profile.setId(profileDto.getUser().getId());
+//            profile.setId(profileDto.getUser().getId());
             Profile savedProfile = profileRepository.save(profile);
 
-            notificationService.saveNotifications(profileDto.getNotifications(), savedProfile);
-            return profileMapper.toDto(savedProfile);
+            Set<NotificationDto> savedNotificationDtos = notificationService.saveNotifications(profileDto.getNotifications(), savedProfile);
+            ProfileDto savedProfileDto = profileMapper.toDto(savedProfile);
+            savedProfileDto.setNotifications(savedNotificationDtos);
+            return savedProfileDto;
         } else {
            throw  new UserNotFoundException("User by ID " + profileDto.getUser().getId() + " already has a profile");
         }
