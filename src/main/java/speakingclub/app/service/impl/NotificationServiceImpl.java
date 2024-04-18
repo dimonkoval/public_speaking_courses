@@ -7,7 +7,6 @@ import speakingclub.app.mapper.course.NotificationMapper;
 import speakingclub.app.model.Notification;
 import speakingclub.app.model.Profile;
 import speakingclub.app.repository.course.NotificationRepository;
-import speakingclub.app.repository.user.ProfileRepository;
 import speakingclub.app.service.NotificationService;
 
 import java.util.HashSet;
@@ -18,7 +17,6 @@ import java.util.Set;
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationMapper notificationMapper;
     private final NotificationRepository notificationRepository;
-//    private final ProfileRepository profileRepository;
     @Override
     public Set<NotificationDto> saveNotifications(Set<NotificationDto> notificationDtos, Profile savedProfile) {
         Set<NotificationDto> savedNotificationDtos = new HashSet<>();
