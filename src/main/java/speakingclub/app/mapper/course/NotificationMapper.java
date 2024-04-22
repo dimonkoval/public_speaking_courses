@@ -1,13 +1,12 @@
 package speakingclub.app.mapper.course;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 import speakingclub.app.config.MapperConfig;
 import speakingclub.app.dto.course.NotificationDto;
 import speakingclub.app.model.Notification;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Mapper(config = MapperConfig.class)
 public interface NotificationMapper {

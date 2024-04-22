@@ -1,13 +1,12 @@
 package speakingclub.app.model;
 
+import java.util.HashSet;
 import jakarta.persistence.*;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter

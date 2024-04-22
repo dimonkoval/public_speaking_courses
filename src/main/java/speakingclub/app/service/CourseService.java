@@ -1,11 +1,11 @@
 package speakingclub.app.service;
 
+import java.util.List;
 import speakingclub.app.dto.course.CourseDto;
 import speakingclub.app.dto.course.CourseWithCoachingDto;
 import speakingclub.app.dto.course.CourseWithWebinarDto;
-import speakingclub.app.model.Course;
-
-import java.util.List;
+import speakingclub.app.model.enums.CourseDirection;
+import speakingclub.app.model.enums.CourseType;
 
 public interface CourseService {
     CourseDto saveCourse(CourseDto courseDto);
@@ -14,6 +14,7 @@ public interface CourseService {
 
     CourseWithCoachingDto saveCourseWithCoaching(CourseWithCoachingDto courseWithCoachingDto);
 
-    List<Course> getAllCourses();
+    List<CourseDto> getAllCourses();
 
+    List<CourseDto> getCoursesByTypeAndDirection(CourseType type, CourseDirection direction);
 }

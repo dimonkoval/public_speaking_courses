@@ -1,7 +1,6 @@
 package speakingclub.app.model;
 
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -46,6 +45,7 @@ public class User implements UserDetails {
     private Set<Course> courses = new HashSet<>();
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
+
     @Override
     public String toString() {
         return "User{"

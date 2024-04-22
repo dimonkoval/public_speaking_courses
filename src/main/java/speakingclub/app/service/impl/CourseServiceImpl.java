@@ -2,6 +2,7 @@ package speakingclub.app.service.impl;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import speakingclub.app.dto.course.CourseDto;
@@ -13,6 +14,8 @@ import speakingclub.app.mapper.course.CourseMapper;
 import speakingclub.app.mapper.course.CourseWithCoachingMapper;
 import speakingclub.app.mapper.course.CourseWithWebinarMapper;
 import speakingclub.app.model.Course;
+import speakingclub.app.model.enums.CourseDirection;
+import speakingclub.app.model.enums.CourseType;
 import speakingclub.app.repository.course.CourseRepository;
 import speakingclub.app.service.CourseService;
 import speakingclub.app.service.ModuleService;
@@ -69,8 +72,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getAllCourses() {
-        return courseRepository.getAllCourses();
+    public List<CourseDto> getAllCourses() {
+        return courseRepository.getCourses(null, null)
+                .stream()
+                .map(courseMapper::toDto)
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public List<CourseDto> getCoursesByTypeAndDirection(CourseType type, CourseDirection direction) {
+        return courseRepository.getCourses(type, direction)
+                .stream()
+                .map(courseMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }
