@@ -13,7 +13,7 @@ import speakingclub.app.model.enums.CourseDirection;
 import speakingclub.app.model.enums.CourseType;
 import speakingclub.app.service.CourseService;
 
-@Tag(name = "Course manager", description = "Endpoints for courses")
+@Tag(name = "Course manager", description = "Endpoints for all courses")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/courses")
